@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ScreenLab</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="side-panel">
+        <div class="brand-row">
+          <div class="mark" aria-hidden="true">SL</div>
+          <div>
+            <h1>ScreenLab</h1>
+            <p>AI UI review and revamp studio</p>
+          </div>
+        </div>
+
+        <form id="labForm" class="lab-form">
+          <section class="form-section capture-station">
+            <div class="section-title">
+              <span>1</span>
+              <h2>Target</h2>
+            </div>
+
+            <label for="targetUrl">Website URL</label>
+            <input id="targetUrl" type="url" value="https://whhite.com" />
+
+            <div class="field-grid">
+              <div class="field">
+                <label for="viewportMode">Viewport</label>
+                <select id="viewportMode">
+                  <option value="desktop">Desktop</option>
+                  <option value="mobile">Mobile</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="model">Model</label>
+                <input id="model" type="text" value="gpt-5.5" />
+              </div>
+            </div>
+
+            <button type="button" id="captureButton" class="secondary-action" data-testid="capture">
+              Capture screen
+            </button>
+            <p id="captureStatus" class="status-line" role="status"></p>
+          </section>
+
+          <section class="form-section key-station">
+            <div class="section-title">
+              <span>Key</span>
+              <h2>AI key</h2>
+            </div>
+
+            <label for="apiKey">OpenAI API key</label>
+            <input id="apiKey" type="password" autocomplete="off" placeholder="sk-..." />
+
+            <section class="cost-panel" aria-label="Cost estimate">
+              <div>
+                <span>Estimated visual run</span>
+                <strong id="estimatedCost">$0.10-$0.30</strong>
+              </div>
+              <p>Actual cost depends on screenshot detail, model, and output length.</p>
+            </section>
+          </section>
+
+          <section id="reviewStation" class="form-section locked-station">
+            <div class="section-title">
+              <span>2</span>
+              <h2>Review</h2>
+            </div>
+
+            <p class="unlock-note">Capture a screen to unlock AI review.</p>
+
+            <label for="reviewGoal">Review goal</label>
+            <textarea id="reviewGoal" rows="4">Review this interface for visual hierarchy, conversion friction, accessibility, mobile usability, trust gaps, and layout polish. Return issues with exact highlight boxes.</textarea>
+
+            <button type="button" id="reviewButton" class="primary-action" data-testid="review" disabled>
+              <span aria-hidden="true">></span>
+              Review UI
+            </button>
+            <p id="reviewStatus" class="status-line" role="status"></p>
+          </section>
+
+          <section id="revampStation" class="form-section locked-station">
+            <div class="section-title">
+              <span>3</span>
+              <h2>Revamp</h2>
+            </div>
+
+            <p class="unlock-note">Capture a screen to unlock AI revamp.</p>
+
+            <label for="revampPrompt">Revamp direction</label>
+            <textarea id="revampPrompt" rows="4">Create a cleaner, more premium, conversion-focused redesign. Keep the original offer and core content, but improve hierarchy, spacing, proof, CTA priority, and mobile clarity.</textarea>
+
+            <button type="button" id="revampButton" class="primary-action" data-testid="revamp" disabled>
+              <span aria-hidden="true">></span>
+              Generate revamp
+            </button>
+            <p id="revampStatus" class="status-line" role="status"></p>
+          </section>
+        </form>
+      </aside>
+
+      <section class="workspace">
+        <header class="workspace-header">
+          <div>
+            <p class="eyebrow">Live UI lab</p>
+            <h2 id="pageTitle">Original screen</h2>
+          </div>
+          <div class="mode-tabs" role="tablist" aria-label="Workspace mode">
+            <button class="mode-tab active" type="button" data-panel="reviewPanel">Reviewer</button>
+            <button class="mode-tab" type="button" data-panel="revampPanel">Revamp</button>
+          </div>
+        </header>
+
+        <section id="reviewPanel" class="workspace-panel active" aria-label="UI reviewer">
+          <div class="review-layout">
+            <section class="screenshot-stage" aria-label="Screenshot with highlights">
+              <div id="shotFrame" class="shot-frame empty">
+                <p>Capture a page to begin.</p>
+                <img id="screenshotImage" alt="Captured website screenshot" />
+                <div id="highlightLayer" class="highlight-layer"></div>
+              </div>
+            </section>
+
+            <aside class="issue-panel">
+              <div class="panel-heading">
+                <h3>Findings</h3>
+                <span id="issueCount">0 issues</span>
+              </div>
+              <div id="issueList" class="issue-list">
+                <p class="empty-note">AI review findings will appear here with matching screenshot highlights.</p>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="revampPanel" class="workspace-panel" aria-label="UI revamp">
+          <div class="revamp-layout">
+            <section>
+              <div class="panel-heading">
+                <h3>Original</h3>
+                <span id="originalLabel">No capture</span>
+              </div>
+              <div class="preview-box">
+                <img id="originalPreview" alt="Original website preview" />
+              </div>
+            </section>
+
+            <section>
+              <div class="panel-heading">
+                <h3>AI revamp preview</h3>
+                <button type="button" id="copyRevamp" class="mini-action">Copy HTML</button>
+              </div>
+              <iframe id="revampPreview" title="AI generated redesign preview"></iframe>
+            </section>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
