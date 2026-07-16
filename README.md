@@ -2,6 +2,8 @@
 
 A realistic 3D chalkboard sketching tool built with Three.js.
 
+![Chalkboard preview](demo/chalkboard-promo-contact-sheet.jpg)
+
 The app maps a high-resolution drawing canvas onto a physically lit 3D board, so chalk strokes stay responsive while the workspace keeps depth, frame shadows, a tray, chalk sticks, and subtle camera parallax.
 
 ## Features
