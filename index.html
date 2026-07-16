@@ -3,161 +3,209 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ScreenLab</title>
+    <title>Chalkboard</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <main class="app-shell">
-      <aside class="side-panel">
-        <div class="brand-row">
-          <div class="mark" aria-hidden="true">SL</div>
+    <main class="studio-shell">
+      <header class="topbar" aria-label="Chalkboard tools">
+        <div class="brand-lockup">
+          <span class="brand-mark" aria-hidden="true"></span>
           <div>
-            <h1>ScreenLab</h1>
-            <p>AI UI review and revamp studio</p>
+            <h1>Chalkboard</h1>
+            <p>3D chalk sketching</p>
           </div>
         </div>
 
-        <form id="labForm" class="lab-form">
-          <section class="form-section capture-station">
-            <div class="section-title">
-              <span>1</span>
-              <h2>Target</h2>
+        <nav class="tool-group" aria-label="Drawing tools">
+          <button class="tool-button is-active" type="button" data-tool="chalk" aria-pressed="true" aria-label="Chalk" data-tooltip="Chalk">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 15.5 15.5 4l4.5 4.5L8.5 20H4z" />
+              <path d="m14 5.5 4.5 4.5" />
+            </svg>
+          </button>
+          <button class="tool-button" type="button" data-tool="line" aria-pressed="false" aria-label="Line" data-tooltip="Line">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 19 19 5" />
+            </svg>
+          </button>
+          <button class="tool-button" type="button" data-tool="arrow" aria-pressed="false" aria-label="Arrow" data-tooltip="Arrow">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 19 19 5" />
+              <path d="M10 5h9v9" />
+            </svg>
+          </button>
+          <button class="tool-button" type="button" data-tool="rect" aria-pressed="false" aria-label="Rectangle" data-tooltip="Rectangle">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="5" y="6" width="14" height="12" rx="1.5" />
+            </svg>
+          </button>
+          <button class="tool-button" type="button" data-tool="circle" aria-pressed="false" aria-label="Ellipse" data-tooltip="Oval">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <ellipse cx="12" cy="12" rx="7" ry="5" />
+            </svg>
+          </button>
+          <button class="tool-button" type="button" data-tool="eraser" aria-pressed="false" aria-label="Eraser" data-tooltip="Eraser">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m5 15 8-8a3 3 0 0 1 4.2 0l1.8 1.8a3 3 0 0 1 0 4.2l-5 5H8z" />
+              <path d="M12 10 17 15" />
+              <path d="M4 20h16" />
+            </svg>
+          </button>
+        </nav>
+
+        <div class="control-group" aria-label="Chalk settings">
+          <label class="control-field">
+            <span>Color</span>
+            <input id="chalkColor" type="color" value="#f3f0de" aria-label="Chalk color" />
+          </label>
+          <label class="control-field range-field">
+            <span>Size <output id="sizeValue">14</output></span>
+            <input id="chalkSize" type="range" min="4" max="42" value="14" />
+          </label>
+          <label class="control-field range-field">
+            <span>Dust <output id="dustValue">64</output>%</span>
+            <input id="dustAmount" type="range" min="15" max="100" value="64" />
+          </label>
+        </div>
+
+        <div class="guide-group" aria-label="Guide layer">
+          <button id="guidePickerButton" class="secondary-action" type="button">Guides</button>
+          <span id="guideSelectedName" class="guide-selected-name">None</span>
+          <label class="control-field range-field guide-opacity-field">
+            <span>Fade <output id="guideOpacityValue">42</output>%</span>
+            <input id="guideOpacity" type="range" min="8" max="80" value="42" />
+          </label>
+          <button id="guideToggleButton" class="icon-button" type="button" aria-label="Hide guide" aria-pressed="true" data-tooltip="Hide guide">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M2 12s3.8-6 10-6 10 6 10 6-3.8 6-10 6S2 12 2 12z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="board-group" aria-label="Board navigation">
+          <button id="prevBoardButton" class="icon-button" type="button" aria-label="Previous board" data-tooltip="Previous board">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m6 15 6-6 6 6" />
+            </svg>
+          </button>
+          <span id="boardCounter" class="board-counter" aria-live="polite">1 / 1</span>
+          <button id="nextBoardButton" class="icon-button" type="button" aria-label="Next board" data-tooltip="Next board">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </button>
+          <button id="addBoardButton" class="icon-button add-board-button" type="button" aria-label="Add board" data-tooltip="Add board">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5v14" />
+              <path d="M5 12h14" />
+            </svg>
+          </button>
+          <button id="overviewButton" class="icon-button" type="button" aria-label="Show all boards" data-tooltip="All boards">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="4" y="4" width="6" height="6" rx="1" />
+              <rect x="14" y="4" width="6" height="6" rx="1" />
+              <rect x="4" y="14" width="6" height="6" rx="1" />
+              <rect x="14" y="14" width="6" height="6" rx="1" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="action-group" aria-label="Board actions">
+          <button id="undoButton" class="icon-button" type="button" aria-label="Undo" data-tooltip="Undo">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9 7H4v5" />
+              <path d="M4 12c2.2-4.2 7-6.2 11.1-4.4 3.7 1.6 5.6 5.8 4.1 9.5" />
+            </svg>
+          </button>
+          <button id="redoButton" class="icon-button" type="button" aria-label="Redo" data-tooltip="Redo">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M15 7h5v5" />
+              <path d="M20 12c-2.2-4.2-7-6.2-11.1-4.4-3.7 1.6-5.6 5.8-4.1 9.5" />
+            </svg>
+          </button>
+          <button id="clearButton" class="icon-button" type="button" aria-label="Clear board" data-tooltip="Clear">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 7h16" />
+              <path d="M10 11v6" />
+              <path d="M14 11v6" />
+              <path d="M6 7l1 14h10l1-14" />
+              <path d="m9 7 1-3h4l1 3" />
+            </svg>
+          </button>
+          <button id="clearAllButton" class="icon-button danger-action" type="button" aria-label="Clear all boards" data-tooltip="Clear all">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 7h16" />
+              <path d="M6 7l1 14h10l1-14" />
+              <path d="m9 7 1-3h4l1 3" />
+              <path d="M9 11h6" />
+              <path d="M9 15h6" />
+              <path d="M3 3l18 18" />
+            </svg>
+          </button>
+          <button id="downloadButton" class="primary-action" type="button">Export PNG</button>
+        </div>
+      </header>
+
+      <section class="stage-wrap" aria-label="3D chalkboard workspace">
+        <canvas id="chalkScene"></canvas>
+        <section id="chalkPalette" class="chalk-palette hidden" aria-label="Chalk color box">
+          <div class="chalk-palette-header">
+            <div>
+              <strong>Chalk Box</strong>
+              <span>Pick a color to replace the active tray chalk.</span>
             </div>
-
-            <label for="targetUrl">Website URL</label>
-            <input id="targetUrl" type="url" value="https://whhite.com" />
-
-            <div class="field-grid">
-              <div class="field">
-                <label for="viewportMode">Viewport</label>
-                <select id="viewportMode">
-                  <option value="desktop">Desktop</option>
-                  <option value="mobile">Mobile</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="model">Model</label>
-                <input id="model" type="text" value="gpt-5.5" />
-              </div>
-            </div>
-
-            <button type="button" id="captureButton" class="secondary-action" data-testid="capture">
-              Capture screen
+            <button id="chalkPaletteCloseButton" class="icon-button" type="button" aria-label="Close chalk box" data-tooltip="Close">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 6l12 12" />
+                <path d="M18 6 6 18" />
+              </svg>
             </button>
-            <p id="captureStatus" class="status-line" role="status"></p>
-          </section>
-
-          <section class="form-section key-station">
-            <div class="section-title">
-              <span>Key</span>
-              <h2>AI key</h2>
-            </div>
-
-            <label for="apiKey">OpenAI API key</label>
-            <input id="apiKey" type="password" autocomplete="off" placeholder="sk-..." />
-
-            <section class="cost-panel" aria-label="Cost estimate">
-              <div>
-                <span>Estimated visual run</span>
-                <strong id="estimatedCost">$0.10-$0.30</strong>
-              </div>
-              <p>Actual cost depends on screenshot detail, model, and output length.</p>
-            </section>
-          </section>
-
-          <section id="reviewStation" class="form-section locked-station">
-            <div class="section-title">
-              <span>2</span>
-              <h2>Review</h2>
-            </div>
-
-            <p class="unlock-note">Capture a screen to unlock AI review.</p>
-
-            <label for="reviewGoal">Review goal</label>
-            <textarea id="reviewGoal" rows="4">Review this interface for visual hierarchy, conversion friction, accessibility, mobile usability, trust gaps, and layout polish. Return issues with exact highlight boxes.</textarea>
-
-            <button type="button" id="reviewButton" class="primary-action" data-testid="review" disabled>
-              <span aria-hidden="true">></span>
-              Review UI
-            </button>
-            <p id="reviewStatus" class="status-line" role="status"></p>
-          </section>
-
-          <section id="revampStation" class="form-section locked-station">
-            <div class="section-title">
-              <span>3</span>
-              <h2>Revamp</h2>
-            </div>
-
-            <p class="unlock-note">Capture a screen to unlock AI revamp.</p>
-
-            <label for="revampPrompt">Revamp direction</label>
-            <textarea id="revampPrompt" rows="4">Create a cleaner, more premium, conversion-focused redesign. Keep the original offer and core content, but improve hierarchy, spacing, proof, CTA priority, and mobile clarity.</textarea>
-
-            <button type="button" id="revampButton" class="primary-action" data-testid="revamp" disabled>
-              <span aria-hidden="true">></span>
-              Generate revamp
-            </button>
-            <p id="revampStatus" class="status-line" role="status"></p>
-          </section>
-        </form>
-      </aside>
-
-      <section class="workspace">
-        <header class="workspace-header">
-          <div>
-            <p class="eyebrow">Live UI lab</p>
-            <h2 id="pageTitle">Original screen</h2>
           </div>
-          <div class="mode-tabs" role="tablist" aria-label="Workspace mode">
-            <button class="mode-tab active" type="button" data-panel="reviewPanel">Reviewer</button>
-            <button class="mode-tab" type="button" data-panel="revampPanel">Revamp</button>
-          </div>
-        </header>
-
-        <section id="reviewPanel" class="workspace-panel active" aria-label="UI reviewer">
-          <div class="review-layout">
-            <section class="screenshot-stage" aria-label="Screenshot with highlights">
-              <div id="shotFrame" class="shot-frame empty">
-                <p>Capture a page to begin.</p>
-                <img id="screenshotImage" alt="Captured website screenshot" />
-                <div id="highlightLayer" class="highlight-layer"></div>
-              </div>
-            </section>
-
-            <aside class="issue-panel">
-              <div class="panel-heading">
-                <h3>Findings</h3>
-                <span id="issueCount">0 issues</span>
-              </div>
-              <div id="issueList" class="issue-list">
-                <p class="empty-note">AI review findings will appear here with matching screenshot highlights.</p>
-              </div>
-            </aside>
-          </div>
+          <div id="chalkPaletteGrid" class="chalk-palette-grid" aria-label="Chalk colors"></div>
         </section>
-
-        <section id="revampPanel" class="workspace-panel" aria-label="UI revamp">
-          <div class="revamp-layout">
-            <section>
-              <div class="panel-heading">
-                <h3>Original</h3>
-                <span id="originalLabel">No capture</span>
-              </div>
-              <div class="preview-box">
-                <img id="originalPreview" alt="Original website preview" />
-              </div>
-            </section>
-
-            <section>
-              <div class="panel-heading">
-                <h3>AI revamp preview</h3>
-                <button type="button" id="copyRevamp" class="mini-action">Copy HTML</button>
-              </div>
-              <iframe id="revampPreview" title="AI generated redesign preview"></iframe>
-            </section>
+        <section id="boardOverview" class="board-overview hidden" aria-label="All boards overview">
+          <div class="board-overview-header">
+            <div>
+              <strong>All Boards</strong>
+              <span id="overviewCount">1 board</span>
+            </div>
+            <div class="overview-actions">
+              <button id="overviewAddButton" class="secondary-action" type="button">Add Board</button>
+              <button id="overviewCloseButton" class="icon-button" type="button" aria-label="Close overview" data-tooltip="Close">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M6 6l12 12" />
+                  <path d="M18 6 6 18" />
+                </svg>
+              </button>
+            </div>
           </div>
+          <div id="overviewGrid" class="overview-grid" aria-label="Board thumbnails"></div>
         </section>
+        <section id="guideLibrary" class="guide-library hidden" aria-label="Guide library">
+          <div class="guide-library-header">
+            <div>
+              <strong>Guide Library</strong>
+              <span>Pick a transparent tracing layer.</span>
+            </div>
+            <button id="guideCloseButton" class="icon-button" type="button" aria-label="Close guide library" data-tooltip="Close">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 6l12 12" />
+                <path d="M18 6 6 18" />
+              </svg>
+            </button>
+          </div>
+          <div id="guideCategoryTabs" class="guide-category-tabs" role="tablist" aria-label="Guide categories"></div>
+          <div id="guideGrid" class="guide-grid" aria-label="Guides"></div>
+        </section>
+        <div id="boardTransition" class="board-transition" aria-hidden="true">
+          <span id="boardTransitionLabel">Board 1</span>
+        </div>
+        <div class="scene-status" aria-live="polite">
+          <strong id="toolLabel">Chalk</strong>
+          <span id="hintLabel">Draw directly on the board.</span>
+        </div>
       </section>
     </main>
 

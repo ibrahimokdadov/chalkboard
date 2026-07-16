@@ -1,11 +1,17 @@
 {
-  "name": "uireviewer",
+  "name": "chalkboard",
   "version": "1.0.0",
-  "description": "AI UI review and revamp studio",
-  "main": "server.js",
+  "description": "A realistic 3D chalkboard sketching tool built with Three.js",
+  "main": "main.js",
   "scripts": {
-    "test": "node --check server.js && node --check script.js",
-    "start": "node server.js"
+    "test": "node --check main.js && node --check preload.js && node --check server.js && node --check script.js && node --check footage-analysis.js && node --check context-store.js && node --check semantic-index.js",
+    "start": "electron .",
+    "start:web": "node server.js",
+    "context:install:win": "node scripts/install-windows-context-menu.js",
+    "context:uninstall:win": "node scripts/uninstall-windows-context-menu.js",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +20,42 @@
   "engines": {
     "node": ">=20"
   },
+  "devDependencies": {
+    "electron": "^39.6.1",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "com.toowls.chalkboard",
+    "productName": "Chalkboard",
+    "files": [
+      "index.html",
+      "styles.css",
+      "script.js",
+      "main.js",
+      "preload.js",
+      "server.js",
+      "footage-analysis.js",
+      "context-store.js",
+      "semantic-index.js",
+      "assets/**",
+      "demo/**",
+      "build/installer.nsh",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.video"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "assets/loomark-icon.ico"
+    },
+    "nsis": {
+      "include": "build/installer.nsh"
+    }
+  },
   "dependencies": {
-    "playwright": "^1.61.1"
+    "@zvec/zvec": "^0.5.0",
+    "pdf-parse": "^2.4.5",
+    "three": "^0.185.1"
   }
 }

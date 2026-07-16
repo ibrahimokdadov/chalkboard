@@ -1,4 +1,6 @@
 node_modules/
+dist/
+release/
 .env
 .env.*
 !.env.example
@@ -9,6 +11,6 @@ pnpm-debug.log*
 playwright-report/
 test-results/
 .cache/
+__pycache__/
 .DS_Store
 Thumbs.db
-
